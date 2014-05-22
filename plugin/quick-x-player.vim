@@ -1,21 +1,18 @@
-
-function! RunPlayer()
+fu! RunPlayer()
 
     let s:workDir = getcwd()
     let s:file = "scripts/main.lua"
-
-    "todo read width and height
-    "let config
+    let s:width = system("sed -n '/CONFIG_SCREEN_WIDTH/p' config.lua | awk 'NR==1 {print $3}'")
+    let s:height = system("sed -n '/CONFIG_SCREEN_HEIGHT/p' config.lua | awk 'NR==1 {print $3}'")
 
     if !exists($QUICK_COCOS2DX_ROOT)
         let $QUICK_COCOS2DX_ROOT = g:QUICK_COCOS2DX_ROOT
     endif
     let s:quick_root = $QUICK_COCOS2DX_ROOT
-    let s:args = join(["-workdir ",s:workDir,"/../"," -file ",s:file," -size ","480x800"],"")
+    let s:args = join(["-workdir ",s:workDir,"/../"," -file ",s:file," -size ",s:width,"x",s:height],"")
     let s:customed_player = join([s:workDir,"/..","/proj.player/quick-x-player.app/Contents/MacOS/quick-x-player"],"")
     let s:quick_player_path =join([s:quick_root,"/player/bin/mac/quick-x-player.app/Contents/MacOS/quick-x-player"],"")
     let g:tips = ""
-
     if executable(s:customed_player)
         let g:tips = "Run with customed player."
         silent! execute join(["!","nohup ",s:customed_player,s:args," >/dev/null &"]," ")
@@ -33,15 +30,15 @@ function! RunPlayer()
         endif
     endif
     echo g:tips
-endfunction
+endf
 command! RunPlayer call RunPlayer()
 
-function! CompileScripts()
+fu! CompileScripts()
     " let scriptPath = join(getcwd()
-endfunction
+endf
 command! CompileScripts call CompileScripts()
 
-function LoadLuafiles()
+fu LoadLuafiles()
     let s:workDir = getcwd()
     let s:quick_scripts_pathName = "scripts"
     let s:pathLen = strlen(s:workDir)
@@ -54,17 +51,16 @@ function LoadLuafiles()
     endif
 
     echo printf("load lua files failed ,please make sure your current working dir is **/**/**/%s",s:quick_scripts_pathName)
-endfunction
+endf
 command! LoadLuafiles call LoadLuafiles()
 
 " todo
-function LoadQuickXFrameworkInNewWindow()
+fu LoadQuickXFrameworkInNewWindow()
 
-endfunction
+endf
 
 command! LoadGetterReg call LoadGetterReg()
 
 noremap <D-F2> :RunPlayer<CR>
 noremap <Leader>ll :LoadLuafiles<CR>
 vnoremap <Leader>gg YGPifunction <ESC>wwr:wdwdwyeiget<ESC>l~wc$()<CR><ESC>iend<ESC>O<ESC>"0pIreturn <ESC>A_<ESC>biself.<ESC>
-
