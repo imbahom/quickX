@@ -2,14 +2,14 @@ fu! RunPlayer()
 
     let s:workDir = getcwd()
     let s:file = "scripts/main.lua"
-    let s:width = system("sed -n '/CONFIG_SCREEN_WIDTH/p' config.lua | awk 'NR==1 {print $3}'")
-    let s:height = system("sed -n '/CONFIG_SCREEN_HEIGHT/p' config.lua | awk 'NR==1 {print $3}'")
+    let s:width = str2nr(system("sed -n '/CONFIG_SCREEN_WIDTH/p' config.lua | awk 'NR==1 {print $3}'"))
+    let s:height = str2nr(system("sed -n '/CONFIG_SCREEN_HEIGHT/p' config.lua | awk 'NR==1 {print $3}'"))
 
     if !exists($QUICK_COCOS2DX_ROOT)
         let $QUICK_COCOS2DX_ROOT = g:QUICK_COCOS2DX_ROOT
     endif
     let s:quick_root = $QUICK_COCOS2DX_ROOT
-    let s:args = join(["-workdir ",s:workDir,"/../"," -file ",s:file," -size ",s:width,"x",s:height],"")
+    let s:args = "-workdir ".s:workDir."/../"." -file ".s:file." -size ".s:width."x".s:height
     let s:customed_player = join([s:workDir,"/..","/proj.player/quick-x-player.app/Contents/MacOS/quick-x-player"],"")
     let s:quick_player_path =join([s:quick_root,"/player/bin/mac/quick-x-player.app/Contents/MacOS/quick-x-player"],"")
     let g:tips = ""
