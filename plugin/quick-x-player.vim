@@ -1,4 +1,5 @@
 fu! RunPlayer()
+    exe system("source ~/.zshrc")
 
     let s:workDir = getcwd()
     let s:file = "scripts/main.lua"
@@ -6,7 +7,7 @@ fu! RunPlayer()
     let s:height = str2nr(system("sed -n '/CONFIG_SCREEN_HEIGHT/p' config.lua | awk 'NR==1 {print $3}'"))
 
     if !exists("$QUICK_COCOS2DX_ROOT")
-        echo "please set QUICK_COCOS2DX_ROOT in your .bashrc or .zshrc"
+        echohl WarningMsg | echo "Please make sure launch vim from terminal.\nDid you set QUICK_COCOS2DX_ROOT in your .bashrc or .zshrc?\n"
         return
     endif
     let s:args = "-workdir ".s:workDir."/../"." -file ".s:file." -size ".s:width."x".s:height
@@ -20,14 +21,7 @@ fu! RunPlayer()
         let g:tips = "Run with default player."
         silent! execute join(["!","nohup ",s:quick_player_path,s:args," >/dev/null &"]," ")
     else
-        echo "err : cant find any app of player\n"
-        if !exists(s:quick_player_path)
-            echo "If you started your vim by dragging a file , then please set QUICK_COCOS2DX_ROOT or g:QUICK_COCOS2DX_ROOT\n"
-        elseif !exists(s:customed_player)
-            echo "If you started your vim by dragging a file , then please set QUICK_COCOS2DX_ROOT\n"
-        else
-            echo "please set QUICK_COCOS2DX_ROOT\n"
-        endif
+        echohl WarningMsg | echo "err : cant find any app of player\n"
     endif
     echo g:tips
 endf
@@ -50,7 +44,7 @@ fu! LoadLuafiles()
         endif
     endif
 
-    echo printf("load lua files failed ,please make sure your current working dir is **/**/**/%s",s:quick_scripts_pathName)
+    echohl WarningMsg | echo printf("load lua files failed ,please make sure your current working dir is **/**/**/%s",s:quick_scripts_pathName)
 endf
 command! LoadLuafiles call LoadLuafiles()
 
