@@ -7,10 +7,12 @@ fu! RunPlayer()
     let s:height = str2nr(system("sed -n '/CONFIG_SCREEN_HEIGHT/p' config.lua | awk 'NR==1 {print $3}'"))
 
     if !exists("$QUICK_COCOS2DX_ROOT")
-        echohl WarningMsg | echo "Please make sure launch vim from terminal.\nDid you set QUICK_COCOS2DX_ROOT in your .bashrc or .zshrc?\n"
+        echohl WarningMsg | echo "Please make sure launch vim from \
+        terminal.\nDid you set QUICK_COCOS2DX_ROOT in your .bashrc or .zshrc?\n" | echohl None
+
         return
     endif
-    let s:args = "-workdir ".s:workDir."/../"." -file ".s:file." -size ".s:width."x".s:height
+    let s:args = "-workdir ".s:workDir."/../"." -file ".s:file." -size ".s:width."x".s:height." -disable-write-debug-log"
     let s:customed_player = s:workDir."/.."."/proj.player/quick-x-player.app/Contents/MacOS/quick-x-player"
     let s:quick_player_path =$QUICK_COCOS2DX_ROOT."/player/bin/mac/quick-x-player.app/Contents/MacOS/quick-x-player"
     let g:tips = ""
@@ -21,7 +23,7 @@ fu! RunPlayer()
         let g:tips = "Run with default player."
         silent! execute join(["!","nohup ",s:quick_player_path,s:args," >/dev/null &"]," ")
     else
-        echohl WarningMsg | echo "err : cant find any app of player\n"
+        echohl WarningMsg | echo "err : cant find any app of player\n" | echohl NONE
     endif
     echo g:tips
 endf
@@ -44,7 +46,9 @@ fu! LoadLuafiles()
         endif
     endif
 
-    echohl WarningMsg | echo printf("load lua files failed ,please make sure your current working dir is **/**/**/%s",s:quick_scripts_pathName)
+    echohl WarningMsg | echo printf("load lua files failed ,\
+    please make sure your current working dir is **/**/**/%s",s:quick_scripts_pathName)
+    | echohl NONE
 endf
 command! LoadLuafiles call LoadLuafiles()
 
