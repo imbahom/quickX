@@ -54,9 +54,13 @@ command! LoadLuafiles call LoadLuafiles()
 
 " todo
 fu! LoadQuickXFrameworkInNewWindow()
-
+    let s:scriptPath = getcwd()."/new_window_for_framework.sh"
+    let s:cmd = "!sh ".s:scriptPath
+    silent! exe s:cmd
 endf
+command! LoadFrameWork call LoadQuickXFrameworkInNewWindow()
 
 noremap <D-F2> :RunPlayer<CR>
 noremap <Leader>ll :LoadLuafiles<CR>
+noremap <Leader>lf :LoadFrameWork<CR>
 vnoremap <Leader>gg YGPifunction <ESC>wwr:wdwdwyeiget<ESC>l~wc$()<CR><ESC>iend<ESC>O<ESC>"0pIreturn <ESC>A_<ESC>biself.<ESC>
