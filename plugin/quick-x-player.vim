@@ -12,9 +12,11 @@ fu! RunPlayer()
 
         return
     endif
+
+    let s:appName = "player"
     let s:args = "-workdir ".s:workDir."/../"." -file ".s:file." -size ".s:width."x".s:height." -disable-write-debug-log"
-    let s:customed_player = s:workDir."/.."."/proj.player/quick-x-player.app/Contents/MacOS/quick-x-player"
-    let s:quick_player_path =$QUICK_COCOS2DX_ROOT."/player/bin/mac/quick-x-player.app/Contents/MacOS/quick-x-player"
+    let s:customed_player = s:workDir."/.."."/proj.player/".s:appName.".app/Contents/MacOS/".s:appName
+    let s:quick_player_path =$QUICK_COCOS2DX_ROOT."/player/mac/".s:appName.".app/Contents/MacOS/".s:appName
     let g:tips = ""
     if executable(s:customed_player)
         let g:tips = "Run with customed player."
