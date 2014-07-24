@@ -53,14 +53,24 @@ endf
 command! LoadLuafiles call LoadLuafiles()
 
 " todo
+" g:quickx_plugin_path = getcwd()
 fu! LoadQuickXFrameworkInNewWindow()
-    let s:scriptPath = getcwd()."/new_window_for_framework.sh"
+    let s:scriptPath = g:quickx_plugin_path."/new_window_for_framework.sh"
     let s:cmd = "!sh ".s:scriptPath
     silent! exe s:cmd
 endf
 command! LoadFrameWork call LoadQuickXFrameworkInNewWindow()
 
-noremap <D-F2> :RunPlayer<CR>
-noremap <Leader>ll :LoadLuafiles<CR>
-noremap <Leader>lf :LoadFrameWork<CR>
-vnoremap <Leader>gg YGPifunction <ESC>wwr:wdwdwyeiget<ESC>l~wc$()<CR><ESC>iend<ESC>O<ESC>"0pIreturn <ESC>A_<ESC>biself.<ESC>
+fu! Class(name)
+    let s:template = "local ".a:name." = class(\"".a:name."\")\n\nfunction ".a:name.":ctor()\n\nend\n\nreturn ".a:name
+    normal diw
+    let @* = s:template
+    silent! normal "*p
+endf
+command! CreateClassWithName call Class(expand("<cword>"))
+
+noremap  <D-F2>      :RunPlayer<CR>
+noremap  <Leader>ll  :LoadLuafiles<CR>
+noremap  <Leader>lf  :LoadFrameWork<CR>
+vnoremap <Leader>gg  YGPifunction <ESC>wwr:wdwdwyeiget<ESC>l~wc$()<CR><ESC>iend<ESC>O<ESC>"0pIreturn <ESC>A_<ESC>biself.<ESC>
+
