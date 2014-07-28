@@ -36,23 +36,23 @@ fu! CompileScripts()
 endf
 command! CompileScripts call CompileScripts()
 
-fu! LoadLuafiles()
-    let s:workDir = getcwd()
-    let s:quick_scripts_pathName = "scripts"
-    let s:pathLen = strlen(s:workDir)
-    let s:partLen = strlen(s:quick_scripts_pathName)
-    if  s:pathLen > s:partLen
-        if strpart(s:workDir,s:pathLen-s:partLen,s:partLen) == s:quick_scripts_pathName
-            :args**/*.lua
-            return
-        endif
-    endif
+" fu! LoadLuafiles()
+    " let s:workDir = getcwd()
+    " let s:quick_scripts_pathName = "scripts"
+    " let s:pathLen = strlen(s:workDir)
+    " let s:partLen = strlen(s:quick_scripts_pathName)
+    " if  s:pathLen > s:partLen
+        " if strpart(s:workDir,s:pathLen-s:partLen,s:partLen) == s:quick_scripts_pathName
+            " :args**/*.lua
+            " return
+        " endif
+    " endif
 
-    echohl WarningMsg | echo printf("load lua files failed ,\
-    please make sure your current working dir is **/**/**/%s",s:quick_scripts_pathName)
-    | echohl NONE
-endf
-command! LoadLuafiles call LoadLuafiles()
+    " echohl WarningMsg | echo printf("load lua files failed ,\
+    " please make sure your current working dir is **/**/**/%s",s:quick_scripts_pathName)
+    " | echohl NONE
+" endf
+" command! LoadLuafiles call LoadLuafiles()
 
 " todo
 " g:quickx_plugin_path = getcwd()
@@ -72,7 +72,8 @@ endf
 command! CreateClassWithName call Class(expand("<cword>"))
 
 noremap  <D-F2>      :RunPlayer<CR>
-noremap  <Leader>ll  :LoadLuafiles<CR>
+" noremap  <Leader>ll  :LoadLuafiles<CR>
+noremap  <Leader>ll  :args**/*.lua<CR>
 noremap  <Leader>lf  :LoadFrameWork<CR>
 vnoremap <Leader>gg  YGPifunction <ESC>wwr:wdwdwyeiget<ESC>l~wc$()<CR><ESC>iend<ESC>O<ESC>"0pIreturn <ESC>A_<ESC>biself.<ESC>
 
