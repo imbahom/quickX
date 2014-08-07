@@ -12,7 +12,7 @@ fu! RunPlayer()
 
         return
     endif
-    let s:args = "-workdir ".s:workDir."/../"." -file ".s:file." -size ".s:width."x".s:height." -disable-write-debug-log"
+    let s:args = "-workdir ".s:workDir."/../"." -file ".s:file." -size ".s:width."x".s:height
     let s:customed_player = s:workDir."/.."."/proj.player/quick-x-player.app/Contents/MacOS/quick-x-player"
     let s:quick_player_path =$QUICK_COCOS2DX_ROOT."/player/bin/mac/quick-x-player.app/Contents/MacOS/quick-x-player"
     let g:tips = ""
@@ -68,6 +68,15 @@ fu! Class(name)
     silent! normal "*p
 endf
 command! CreateClassWithName call Class(expand("<cword>"))
+
+fu! Create_function(funcName)
+    let s:fileName = matchstr(expand("%:t"),"[^\.]*") 
+    let s:template = "function ".s:fileName.":".a:funcName."()\n\nend"
+    normal diw
+    let @* = s:template
+    silent! normal "*p
+endf
+command! CreateFunctionWithName call Create_function(expand("<cword>"))
 
 noremap  <D-F2>      :RunPlayer<CR>
 " noremap  <Leader>ll  :LoadLuafiles<CR>
