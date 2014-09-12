@@ -63,15 +63,34 @@ fu! LoadQuickXFrameworkInNewWindow()
 endf
 command! LoadFrameWork call LoadQuickXFrameworkInNewWindow()
 
-fu! Class(name)
+fu! Create_class(name)
     let s:template = "local ".a:name." = class(\"".a:name."\")\n\nfunction ".a:name.":ctor()\n\nend\n\nreturn ".a:name
     normal diw
     let @* = s:template
     silent! normal "*p
 endf
-command! CreateClassWithName call Class(expand("<cword>"))
+command! CreateClassWithName call Create_class(expand("<cword>"))
 
-noremap  <D-F2>      :RunPlayer<CR>
+fu! Create_function(funcName)
+    let s:fileName = matchstr(expand("%:t"),"[^\.]*") 
+    let s:template = "function ".s:fileName.":".a:funcName."()\n\nend"
+    normal diw
+    let @* = s:template
+    silent! normal "*p
+endf
+command! CreateFunctionWithName call Create_function(expand("<cword>"))
+
+fu! View_debugLog()
+    let s:workDir = getcwd()
+    let s:cmd1 = ":vnew"
+    silent! exe s:cmd1
+    let s:cmd2 = ":r!cat ".s:workDir."/.."."/debug.log"
+    silent! exe s:cmd2
+endf
+command! ViewDebugLog call View_debugLog()
+
+nnoremap <Leader>vdl :ViewDebugLog<CR>
+norema  <D-F2>      :RunPlayer<CR>
 " noremap  <Leader>ll  :LoadLuafiles<CR>
 noremap  <Leader>ll  :args**/*.lua<CR>
 noremap  <Leader>lf  :LoadFrameWork<CR>
