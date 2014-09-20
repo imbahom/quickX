@@ -52,11 +52,8 @@ command! CompileScripts call CompileScripts()
 " endf
 " command! LoadLuafiles call LoadLuafiles()
 
-" todo
-" g:quickx_plugin_path = getcwd()
 fu! LoadQuickXFrameworkInNewWindow()
-    let s:scriptPath = g:quickx_plugin_path."/new_window_for_framework.sh"
-    let s:cmd = "!sh ".s:scriptPath
+    let s:cmd = "!cd $QUICK_COCOS2DX_ROOT/framework && find . -name '*.lua' | xargs mvim"
     silent! exe s:cmd
 endf
 command! LoadFrameWork call LoadQuickXFrameworkInNewWindow()
