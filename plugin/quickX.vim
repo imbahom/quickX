@@ -16,4 +16,5 @@ nnoremap <Leader>vdl :ViewDebugLog<CR>
 vnoremap <Leader>gg  YGPifunction <ESC>wwr:wdwdwyeiget<ESC>l~wc$()<CR><ESC>iend<ESC>O<ESC>"0pIreturn <ESC>A_<ESC>biself.<ESC>
 
 command! CreateClassWithName call quickX#Create_class(expand("<cword>"))
+command! CreateClassWithFileName call quickX#Create_class(expand("%:t:r"))
 command! CreateFunctionWithName call quickX#Create_function(expand("<cword>"))
