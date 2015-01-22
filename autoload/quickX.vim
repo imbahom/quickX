@@ -1,11 +1,24 @@
+" vim:tabstop=2:shiftwidth=4:expandtab:foldmethod=marker:textwidth=79
+" simple vim plugin for cocos2d-x lua developers
+" repo url : github.com/imbahom/quickX
+" Maintainer: imbahom <imbahom@gmail.com>
+
 scriptencoding utf-8
+
+if exists("g:loaded_quickX")
+    finish
+endif
+let g:loaded_quickX = 1
 
 let s:autocommands_done = 0
 
+"init{{{
 fu! quickX#init() abort
     s:CreateAutocmd()
 endf
+"}}}
 
+" {{{
 fu! s:CreateAutocmd() abort
     augroup quickX
         autocmd!
@@ -15,7 +28,9 @@ fu! s:CreateAutocmd() abort
     let s:autocommands_done = 1
     return 1
 endf
+"}}}
 
+"{{{
 fu! quickX#RunPlayer()
     exe system("source ~/.zshrc")
 
@@ -48,12 +63,14 @@ fu! quickX#RunPlayer()
     endif
     echo g:tips
 endf
+"}}}
 
 " fu! CompileScripts()
     " " let scriptPath = join(getcwd()
 " endf
 " command! CompileScripts call CompileScripts()
 
+"loaaQuickXFrameWork{{{
 fu! quickX#LoadQuickXFramework()
     let s:cmd = ""
     if has("gui_running")
@@ -64,14 +81,18 @@ fu! quickX#LoadQuickXFramework()
         silent! exe s:cmd
     endif
 endf
+"}}}
 
+"create class {{{
 fu! quickX#Create_class(name)
     let s:template = "local ".a:name." = class(\"".a:name."\")\n\nfunction ".a:name.":ctor()\n\nend\n\nreturn ".a:name
     normal diw
     let @* = s:template
     silent! normal "*p
 endf
+"}}}
 
+"create function by name {{{
 fu! quickX#Create_function(funcName)
     let s:fileName = matchstr(expand("%:t"),"[^\.]*")
     let s:template = "function ".s:fileName.":".a:funcName."()\n\nend"
@@ -79,7 +100,9 @@ fu! quickX#Create_function(funcName)
     let @* = s:template
     silent! normal "*p
 endf
+"}}}
 
+"viewDebugLog {{{
 fu! quickX#View_debugLog()
     let s:workDir = getcwd()
     let s:cmd1 = ":new"
@@ -87,4 +110,5 @@ fu! quickX#View_debugLog()
     let s:cmd2 = ":r!cat ".s:workDir."/.."."/debug.log"
     silent! exe s:cmd2
 endf
+"}}}
 
