@@ -77,10 +77,10 @@ endf
 fu! quickX#LoadQuickXFramework()
     let s:cmd = ""
     if has("gui_running")
-        let s:cmd = "!cd $QUICK_V3_ROOT/framework && find . -name '*.lua' | xargs mvim"
+        let s:cmd = "!cd $QUICK_V3_ROOT/quick/framework && find . -name '*.lua' | xargs mvim"
         silent! exe s:cmd
     else
-        let s:cmd = "!cd $QUICK_V3_ROOT/framework && find . -name '*.lua' | xargs vim"
+        let s:cmd = "!cd $QUICK_V3_ROOT/quick/framework && find . -name '*.lua' | xargs vim"
         silent! exe s:cmd
     endif
 endf
@@ -110,7 +110,7 @@ fu! quickX#View_debugLog()
     let s:workDir = getcwd()
     let s:cmd1 = ":new"
     silent! exe s:cmd1
-    let s:cmd2 = ":r!cat ".s:workDir."/.."."/debug.log"
+    let s:cmd2 = ":r!cat ".s:workDir."/debug.log"
     silent! exe s:cmd2
 endf
 "}}}
