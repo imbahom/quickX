@@ -35,19 +35,22 @@ fu! quickX#RunPlayer()
     exe system("source ~/.zshrc")
 
     let s:workDir = getcwd()
-    let s:file = "scripts/main.lua"
-    let s:width = str2nr(system("sed -n '/CONFIG_SCREEN_WIDTH/p' config.lua | awk 'NR==1 {print $3}'"))
-    let s:height = str2nr(system("sed -n '/CONFIG_SCREEN_HEIGHT/p' config.lua | awk 'NR==1 {print $3}'"))
+    let s:file = "src/main.lua"
+    let s:width = str2nr(system("sed -n '/CONFIG_SCREEN_WIDTH/p' src/config.lua | awk 'NR==1 {print $3}'"))
+    let s:height = str2nr(system("sed -n '/CONFIG_SCREEN_HEIGHT/p' src/config.lua | awk 'NR==1 {print $3}'"))
+    let s:orientation = str2nr(system("sed -n '/CONFIG_SCREEN_ORIENTATION/p' src/config.lua | awk 'NR==1 {print $3}'"))
+    let s:scale = (system("sed -n '/\"scale\"/p' config.json | awk 'NR==1 {print $3}'"))
+    let s:scale = string(0.75)
 
-    if !exists("$QUICK_COCOS2DX_ROOT")
+    if !exists("$QUICK_V3_ROOT")
         echohl WarningMsg | echo "Please make sure launch vim from \
-        terminal.\nDid you set QUICK_COCOS2DX_ROOT in your .bashrc or .zshrc?\n" | echohl None
+        terminal.\nDid you set QUICK_V3_ROOT in your .bashrc or .zshrc?\n" | echohl None
 
         return
     endif
-    let s:args = " -workdir ".s:workDir."/../"." -file ".s:file." -size ".s:width."x".s:height
+    let s:args = " -workdir ".s:workDir." -file ".s:file." -".s:orientation." -size ".s:width."x".s:height." -scale ".s:scale
     let s:customed_player = s:workDir."/.."."/proj.player/quick-x-player.app/Contents/MacOS/quick-x-player"
-    let s:quick_player_path =$QUICK_COCOS2DX_ROOT."/player/bin/mac/quick-x-player.app/Contents/MacOS/quick-x-player"
+    let s:quick_player_path =$QUICK_V3_ROOT."/player3.app/Contents/MacOS/player3"
     " echo s:quick_player_path
     let g:tips = ""
     if executable(s:customed_player)
@@ -74,10 +77,10 @@ endf
 fu! quickX#LoadQuickXFramework()
     let s:cmd = ""
     if has("gui_running")
-        let s:cmd = "!cd $QUICK_COCOS2DX_ROOT/framework && find . -name '*.lua' | xargs mvim"
+        let s:cmd = "!cd $QUICK_V3_ROOT/framework && find . -name '*.lua' | xargs mvim"
         silent! exe s:cmd
     else
-        let s:cmd = "!cd $QUICK_COCOS2DX_ROOT/framework && find . -name '*.lua' | xargs vim"
+        let s:cmd = "!cd $QUICK_V3_ROOT/framework && find . -name '*.lua' | xargs vim"
         silent! exe s:cmd
     endif
 endf
