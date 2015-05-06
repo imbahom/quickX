@@ -5,21 +5,28 @@
 
 scriptencoding utf-8
 
-if exists("g:loaded_quickX")
+if exists("g:Loaded_quickX")
     finish
 endif
-let g:loaded_quickX = 1
+let g:Loaded_quickX = 1
+
+"  player_type
+"  default      ==  0
+"  custom       ==  1
+"  none         ==  -1
+" let g:player_type = 0
 
 let s:autocommands_done = 0
 
 "init{{{
 fu! quickX#init() abort
-    s:CreateAutocmd()
+    call quickX#CreateAutocmd()
+    call quickX#initVal()
 endf
 "}}}
 
-" {{{
-fu! s:CreateAutocmd() abort
+"{{{
+fu! quickX#CreateAutocmd() abort
     augroup quickX
         autocmd!
 
@@ -30,16 +37,36 @@ fu! s:CreateAutocmd() abort
 endf
 "}}}
 
-"{{{
-fu! quickX#RunPlayer()
+"setPlayerType{{{
+fu! quickX#initVal()
     exe system("source ~/.zshrc")
     if !exists("$QUICK_V3_ROOT")
+        let g:player_type = -1
+        return
+    endif
+    let g:workDir = getcwd()
+    let g:customed_player = g:workDir."/runtime/mac/Client\ Mac.app/Contents/MacOS/Client\ Mac"
+    let g:quick_player_path =$QUICK_V3_ROOT."/player3.app/Contents/MacOS/player3"
+    if executable(g:customed_player)
+        let g:customed_player = g:workDir."/runtime/mac/Client\\ Mac.app/Contents/MacOS/Client\\ Mac"
+        let g:player_type = 1
+    elseif executable(g:quick_player_path)
+        let g:player_type = 0
+    else
+        let g:player_type = -1
+    endif
+endf
+"}}}
+
+"RunPlayer{{{
+fu! quickX#RunPlayer()
+    if g:player_type == -1
         echohl WarningMsg | echo "Please make sure launch vim from \
         terminal.\nDid you set QUICK_V3_ROOT in your .bashrc or .zshrc?\n" | echohl None
+        echohl WarningMsg | echo "err : cant find any app of player\n" | echohl NONE
         return
     endif
 
-    let s:workDir = getcwd()
     let s:file = "src/main.lua"
     let s:width = str2nr(system("sed -n '/CONFIG_SCREEN_WIDTH/p' src/config.lua | awk 'NR==1 {print $3}'"))
     let s:height = str2nr(system("sed -n '/CONFIG_SCREEN_HEIGHT/p' src/config.lua | awk 'NR==1 {print $3}'"))
@@ -50,22 +77,16 @@ fu! quickX#RunPlayer()
     " let s:debuggerType = " -debugger-codeide " 
     " let s:debuggerType = " -debugger-ldt " 
 
-    let s:args = " -workdir ".s:workDir." -file ".s:file." -".s:orientation." -size ".s:width."x".s:height." -scale ".s:scale.s:debuggerType
-    let s:customed_player = s:workDir."/runtime/mac/Client'\ Mac.app/Contents/MacOS/Client'\ Mac"
-    echo s:customed_player
-    let s:quick_player_path =$QUICK_V3_ROOT."/player3.app/Contents/MacOS/player3"
-    " echo s:quick_player_path
+    let s:args = " -workdir ".g:workDir." -file ".s:file." -".s:orientation." -size ".s:width."x".s:height." -scale ".s:scale.s:debuggerType
     let g:tips = ""
-    if executable(s:customed_player)
+    if g:player_type == 1
         let g:tips = "Run with customed player."
-        let s:cmd = join(["!",s:customed_player,s:args," &"],"")
+        let s:cmd = join(["!",g:customed_player,s:args," &"],"")
         silent! execute s:cmd
-    elseif executable(s:quick_player_path)
+    elseif g:player_type == 0
         let g:tips = "Run with default player."
-        let s:cmd = join(["!",s:quick_player_path,s:args," &"],"")
+        let s:cmd = join(["!",g:quick_player_path,s:args," &"],"")
         silent! execute s:cmd
-    else
-        echohl WarningMsg | echo "err : cant find any app of player\n" | echohl NONE
     endif
     echo g:tips
 endf
@@ -78,12 +99,17 @@ endf
 
 "loaaQuickXFrameWork{{{
 fu! quickX#LoadQuickXFramework()
-    let s:cmd = ""
+    if g:player_type == 0 
+        let s:frameworkPath = "$QUICK_V3_ROOT/quick/framework"
+    elseif g:player_type == 1
+        let s:frameworkPath = g:workDir."/src/framework"
+    endif
+
     if has("gui_running")
-        let s:cmd = "!cd $QUICK_V3_ROOT/quick/framework && find . -name '*.lua' | xargs mvim"
+        let s:cmd = "!cd ".s:frameworkPath." && find . -name '*.lua' | xargs mvim"
         silent! exe s:cmd
     else
-        let s:cmd = "!cd $QUICK_V3_ROOT/quick/framework && find . -name '*.lua' | xargs vim"
+        let s:cmd = "!cd ".s:frameworkPath." && find . -name '*.lua' | xargs vim"
         silent! exe s:cmd
     endif
 endf
@@ -110,10 +136,9 @@ endf
 
 "viewDebugLog {{{
 fu! quickX#View_debugLog()
-    let s:workDir = getcwd()
     let s:cmd1 = ":new"
     silent! exe s:cmd1
-    let s:cmd2 = ":r!cat ".s:workDir."/debug.log"
+    let s:cmd2 = ":r!cat ".g:workDir."/debug.log"
     silent! exe s:cmd2
 endf
 "}}}

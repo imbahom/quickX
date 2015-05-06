@@ -12,7 +12,7 @@ let quickX = 1
 let s:old_cpo = $cpo
 set cpo&vim
 
-normal exe call quickX#init()
+call quickX#init()
 
 noremap  <Leader>ll  :args **src/*.lua<CR>
 vnoremap <Leader>gg  YGPifunction <ESC>wwr:wdwdwyeiget<ESC>l~wc$()<CR><ESC>iend<ESC>O<ESC>"0pIreturn <ESC>A_<ESC>biself.<ESC>
