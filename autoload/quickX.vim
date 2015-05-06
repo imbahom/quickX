@@ -49,7 +49,10 @@ fu! quickX#initVal()
     let g:quick_player_path =$QUICK_V3_ROOT."/player3.app/Contents/MacOS/player3"
     if executable(g:customed_player)
         let g:customed_player = g:workDir."/runtime/mac/Client\\ Mac.app/Contents/MacOS/Client\\ Mac"
-        let g:player_type = 1
+        " fuck quick 这个runtime 代码有问题吧，一定是我不理解，暂时不用custom
+        " player
+        let g:player_type = 0
+        " let g:player_type = 1
     elseif executable(g:quick_player_path)
         let g:player_type = 0
     else
