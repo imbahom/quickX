@@ -33,6 +33,11 @@ endf
 "{{{
 fu! quickX#RunPlayer()
     exe system("source ~/.zshrc")
+    if !exists("$QUICK_V3_ROOT")
+        echohl WarningMsg | echo "Please make sure launch vim from \
+        terminal.\nDid you set QUICK_V3_ROOT in your .bashrc or .zshrc?\n" | echohl None
+        return
+    endif
 
     let s:workDir = getcwd()
     let s:file = "src/main.lua"
@@ -41,15 +46,13 @@ fu! quickX#RunPlayer()
     let s:orientation = str2nr(system("sed -n '/CONFIG_SCREEN_ORIENTATION/p' src/config.lua | awk 'NR==1 {print $3}'"))
     let s:scale = (system("sed -n '/\"scale\"/p' config.json | awk 'NR==1 {print $3}'"))
     let s:scale = string(0.75)
+    let s:debuggerType = " -disable-debugger " 
+    " let s:debuggerType = " -debugger-codeide " 
+    " let s:debuggerType = " -debugger-ldt " 
 
-    if !exists("$QUICK_V3_ROOT")
-        echohl WarningMsg | echo "Please make sure launch vim from \
-        terminal.\nDid you set QUICK_V3_ROOT in your .bashrc or .zshrc?\n" | echohl None
-
-        return
-    endif
-    let s:args = " -workdir ".s:workDir." -file ".s:file." -".s:orientation." -size ".s:width."x".s:height." -scale ".s:scale
-    let s:customed_player = s:workDir."/.."."/proj.player/quick-x-player.app/Contents/MacOS/quick-x-player"
+    let s:args = " -workdir ".s:workDir." -file ".s:file." -".s:orientation." -size ".s:width."x".s:height." -scale ".s:scale.s:debuggerType
+    let s:customed_player = s:workDir."/runtime/mac/Client'\ Mac.app/Contents/MacOS/Client'\ Mac"
+    echo s:customed_player
     let s:quick_player_path =$QUICK_V3_ROOT."/player3.app/Contents/MacOS/player3"
     " echo s:quick_player_path
     let g:tips = ""
