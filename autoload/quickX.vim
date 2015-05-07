@@ -76,9 +76,9 @@ fu! quickX#RunPlayer()
     let s:orientation = str2nr(system("sed -n '/CONFIG_SCREEN_ORIENTATION/p' src/config.lua | awk 'NR==1 {print $3}'"))
     let s:scale = (system("sed -n '/\"scale\"/p' config.json | awk 'NR==1 {print $3}'"))
     let s:scale = string(0.75)
-    let s:debuggerType = " -disable-debugger " 
-    " let s:debuggerType = " -debugger-codeide " 
-    " let s:debuggerType = " -debugger-ldt " 
+    let s:debuggerType = " -disable-debugger "
+    " let s:debuggerType = " -debugger-codeide "
+    " let s:debuggerType = " -debugger-ldt "
 
     let s:args = " -workdir ".g:workDir." -file ".s:file." -".s:orientation." -size ".s:width."x".s:height." -scale ".s:scale.s:debuggerType
     let g:tips = ""
@@ -96,13 +96,13 @@ endf
 "}}}
 
 " fu! CompileScripts()
-    " " let scriptPath = join(getcwd()
+" " let scriptPath = join(getcwd()
 " endf
 " command! CompileScripts call CompileScripts()
 
 "loaaQuickXFrameWork{{{
 fu! quickX#LoadQuickXFramework()
-    if g:player_type == 0 
+    if g:player_type == 0
         let s:frameworkPath = "$QUICK_V3_ROOT/quick/framework"
     elseif g:player_type == 1
         let s:frameworkPath = g:workDir."/src/framework"
@@ -143,6 +143,17 @@ fu! quickX#View_debugLog()
     silent! exe s:cmd1
     let s:cmd2 = ":r!cat ".g:workDir."/debug.log"
     silent! exe s:cmd2
+endf
+"}}}
+
+"generate tags file using excuberant-ctags{{{
+fu! quickX#generateTags()
+    if exists("$QUICK_V3_ROOT")
+        "Todo:pass more precise params
+        exe system("ctags -f $QUICK_V3_ROOT/cocos/tags -R $QUICK_V3_ROOT/cocos")
+        let &tags=$QUICK_V3_ROOT."cocos/tags"
+        set tags+=./tags;
+    endif
 endf
 "}}}
 

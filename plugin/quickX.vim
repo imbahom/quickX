@@ -17,12 +17,13 @@ call quickX#init()
 noremap  <Leader>ll  :args **src/*.lua<CR>
 vnoremap <Leader>gg  YGPifunction <ESC>wwr:wdwdwyeiget<ESC>l~wc$()<CR><ESC>iend<ESC>O<ESC>"0pIreturn <ESC>A_<ESC>biself.<ESC>
 
-command! RunPlayer call quickX#RunPlayer()
-command! LoadFrameWork call quickX#LoadQuickXFramework()
-command! ViewDebugLog call quickX#View_debugLog()
-command! CreateClassWithName call quickX#Create_class(expand("<cword>"))
-command! CreateClassWithFileName call quickX#Create_class(expand("%:t:r"))
-command! CreateFunctionWithName call quickX#Create_function(expand("<cword>"))
+command!  RunPlayer                call  quickX#RunPlayer()
+command!  LoadFrameWork            call  quickX#LoadQuickXFramework()
+command!  ViewDebugLog             call  quickX#View_debugLog()
+command!  CreateClassWithName      call  quickX#Create_class(expand("<cword>"))
+command!  CreateClassWithFileName  call  quickX#Create_class(expand("%:t:r"))
+command!  CreateFunctionWithName   call  quickX#Create_function(expand("<cword>"))
+command!  GenerateTags             call  quickX#generateTags()
 
 " MAPPING {{{
 if !hasmapto('<Plug>RunPlayer')
@@ -40,6 +41,5 @@ if !hasmapto('<Plug>ViewDebugLog')
 endif
 nnoremap <unique><script> <Plug>ViewDebugLog :ViewDebugLog<CR>
 "}}}
-
 
 let &cpo = s:old_cpo
