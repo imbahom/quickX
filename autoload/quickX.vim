@@ -22,6 +22,9 @@ let s:autocommands_done = 0
 fu! quickX#init() abort
     call quickX#CreateAutocmd()
     call quickX#initVal()
+
+    let &tags=$QUICK_V3_ROOT."/cocos/tags"
+    set tags+=./tags;
 endf
 "}}}
 
@@ -151,8 +154,6 @@ fu! quickX#generateTags()
     if exists("$QUICK_V3_ROOT")
         "Todo:pass more precise params
         exe system("ctags -f $QUICK_V3_ROOT/cocos/tags -R $QUICK_V3_ROOT/cocos")
-        let &tags=$QUICK_V3_ROOT."cocos/tags"
-        set tags+=./tags;
     endif
 endf
 "}}}
