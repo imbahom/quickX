@@ -47,11 +47,11 @@ fu! quickX#initVal()
         let g:player_type = -1
         return
     endif
-    let g:workDir = getcwd()
-    let g:customed_player = g:workDir."/runtime/mac/Client\ Mac.app/Contents/MacOS/Client\ Mac"
+    let s:workDir = getcwd()
+    let g:customed_player = s:workDir."/runtime/mac/Client\ Mac.app/Contents/MacOS/Client\ Mac"
     let g:quick_player_path =$QUICK_V3_ROOT."/player3.app/Contents/MacOS/player3"
     if executable(g:customed_player)
-        let g:customed_player = g:workDir."/runtime/mac/Client\\ Mac.app/Contents/MacOS/Client\\ Mac"
+        let g:customed_player = s:workDir."/runtime/mac/Client\\ Mac.app/Contents/MacOS/Client\\ Mac"
         " fuck quick 这个runtime 代码有问题吧，一定是我不理解，暂时不用custom
         " player
         let g:player_type = 0
@@ -83,7 +83,7 @@ fu! quickX#RunPlayer()
     " let s:debuggerType = " -debugger-codeide "
     " let s:debuggerType = " -debugger-ldt "
 
-    let s:args = " -workdir ".g:workDir." -file ".s:file." -".s:orientation." -size ".s:width."x".s:height." -scale ".s:scale.s:debuggerType
+    let s:args = " -workdir ".getcwd()." -file ".s:file." -".s:orientation." -size ".s:width."x".s:height." -scale ".s:scale.s:debuggerType
     let g:tips = ""
     if g:player_type == 1
         let g:tips = "Run with customed player."
@@ -108,7 +108,7 @@ fu! quickX#LoadQuickXFramework()
     if g:player_type == 0
         let s:frameworkPath = "$QUICK_V3_ROOT/quick/framework"
     elseif g:player_type == 1
-        let s:frameworkPath = g:workDir."/src/framework"
+        let s:frameworkPath = getcwd()."/src/framework"
     endif
 
     if has("gui_running")
@@ -144,7 +144,7 @@ endf
 fu! quickX#View_debugLog()
     let s:cmd1 = ":new"
     silent! exe s:cmd1
-    let s:cmd2 = ":r!cat ".g:workDir."/debug.log"
+    let s:cmd2 = ":r!cat ".getcwd()."/debug.log"
     silent! exe s:cmd2
 endf
 "}}}
