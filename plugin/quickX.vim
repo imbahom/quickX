@@ -15,7 +15,6 @@ set cpo&vim
 call quickX#init()
 
 noremap  <Leader>ll  :args **src/*.lua<CR>
-vnoremap <Leader>gg  YGPifunction <ESC>wwr:wdwdwyeiget<ESC>l~wc$()<CR><ESC>iend<ESC>O<ESC>"0pIreturn <ESC>A_<ESC>biself.<ESC>
 
 command!  RunPlayer                call  quickX#RunPlayer()
 command!  LoadFrameWork            call  quickX#LoadQuickXFramework()
@@ -40,6 +39,11 @@ if !hasmapto('<Plug>ViewDebugLog')
     nmap  <silent><unique> <Leader>vdl <Plug>ViewDebugLog
 endif
 nnoremap <unique><script> <Plug>ViewDebugLog :ViewDebugLog<CR>
+
+if !hasmapto('<Plug>CreateFunctionWithName')
+    nmap  <silent><unique> <Leader>gg <Plug>CreateFunctionWithName
+endif
+nnoremap <unique><script> <Plug>CreateFunctionWithName :CreateFunctionWithName<CR>
 "}}}
 
 let &cpo = s:old_cpo

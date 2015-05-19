@@ -82,8 +82,14 @@ fu! quickX#RunPlayer()
     let s:debuggerType = " -disable-debugger "
     " let s:debuggerType = " -debugger-codeide "
     " let s:debuggerType = " -debugger-ldt "
+    let s:loadFrameWork = " -load-framework "
+    " let s:loadFrameWork = ""
+    " let s:loadFrameWork = " -disable-load-framework "
+    let s:showConsole = " -console "
+    " let s:showConsole = ""
+    " let s:showConsole = " -disable-console "
 
-    let s:args = " -workdir ".getcwd()." -file ".s:file." -".s:orientation." -size ".s:width."x".s:height." -scale ".s:scale.s:debuggerType
+    let s:args = " -workdir ".getcwd()." -file ".s:file." -".s:orientation." -size ".s:width."x".s:height." -scale ".s:scale.s:debuggerType." -disable-console ".s:loadFrameWork.s:showConsole
     let g:tips = ""
     if g:player_type == 1
         let g:tips = "Run with customed player."
