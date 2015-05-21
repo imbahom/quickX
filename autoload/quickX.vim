@@ -150,7 +150,8 @@ endf
 fu! quickX#View_debugLog()
     let s:cmd1 = ":new"
     silent! exe s:cmd1
-    let s:cmd2 = ":r!cat ".getcwd()."/debug.log"
+    let s:cmd2 = ":e ".getcwd()."/debug.log"
+    " let s:cmd2 = ":r!cat ".getcwd()."/debug.log"
     silent! exe s:cmd2
 endf
 "}}}
