@@ -148,7 +148,11 @@ endf
 
 "viewDebugLog {{{
 fu! quickX#View_debugLog()
-    let s:cmd1 = ":new"
+    if winwidth(0) > winheight(0)*3
+        let s:cmd1 = ":vnew"
+    else
+        let s:cmd1 = ":new"
+    endif
     silent! exe s:cmd1
     let s:cmd2 = ":e ".getcwd()."/debug.log"
     " let s:cmd2 = ":r!cat ".getcwd()."/debug.log"
