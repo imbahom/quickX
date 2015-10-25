@@ -42,7 +42,7 @@ endf
 
 "setPlayerType{{{
 fu! quickX#initVal()
-    exe system("source ~/.zshrc")
+    " exe system("source ~/.zshrc")
     if !exists("$QUICK_V3_ROOT")
         let g:player_type = -1
         return
